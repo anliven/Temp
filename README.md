@@ -1,1 +1,1 @@
-This is a test!
+Some code samples.
