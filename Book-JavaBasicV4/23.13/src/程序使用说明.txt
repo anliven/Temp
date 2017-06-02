@@ -1,1 +1,0 @@
-将new.doc、new.txt文件复制到项目的src文件夹根目录下。
