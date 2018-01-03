@@ -1,0 +1,11 @@
+Hello World!
+success reader username and password!
+xxx@yeah.net xxx
+This operation succeeds, you will get the information!
+username is test : password is 123456 
+username is xxx@yeah.net : password is xxx
+success reader username and password!
+xxx@yeah.net xxx
+This operation succeeds, you will get the information!
+username is test : password is 123456 
+username is xxx@yeah.net : password is xxx
