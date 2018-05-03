@@ -1,0 +1,27 @@
+        <Alarm AlarmIdentifier="cpqiScsiLinkUp">
+            <MappingConfig>
+                <SystemDN/>
+                <EventTime>
+                    <dateFormatMapping/>
+                </EventTime>
+                <SpecificProblem>
+                    <DefaultMapping>
+                        <Text>350666</Text>
+                    </DefaultMapping>
+                </SpecificProblem>
+                <AlarmId>
+                    <AdvancedMapping>
+                        <AdvancedMappingType value="Text">
+                            <Text>0</Text>
+                        </AdvancedMappingType>
+                    </AdvancedMapping>
+                </AlarmId>
+            </MappingConfig>
+            <Criteria>
+                <AlarmClearedCriteria>
+                    <TrapOIDCriteria>
+                        <OID>1.3.6.1.4.1.232.0.169001</OID>
+                    </TrapOIDCriteria>
+                </AlarmClearedCriteria>
+            </Criteria>
+        </Alarm>

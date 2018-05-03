@@ -1,0 +1,66 @@
+            <Alarm AlarmIdentifier="cpqSm2AutoShutdownInitiated">
+                <MappingConfig>
+                    <SystemDN/>
+                    <EventTime>
+                        <dateFormatMapping/>
+                    </EventTime>
+                    <SpecificProblem>
+                        <DefaultMapping>
+                            <Text>350667</Text>
+                        </DefaultMapping>
+                    </SpecificProblem>
+                    <AlarmText>
+                        <AdvancedMapping>
+                            <AdvancedMappingType value="Text">
+                                <Text>SM2 AUTO SHUTDOWN INITIATED</Text>
+                            </AdvancedMappingType>
+                        </AdvancedMapping>
+                    </AlarmText>
+                    <PerceivedSeverity>
+                        <DefaultMapping>
+                            <Text>major</Text>
+                        </DefaultMapping>
+                    </PerceivedSeverity>
+                    <AdditionalText5>
+                        <AdvancedMapping>
+                            <AdvancedMappingType value="Text">
+                                <Text>sysName:</Text>
+                            </AdvancedMappingType>
+                            <AdvancedMappingType value="Varbind-OID">
+                                <varBind OID="1.3.6.1.2.1.1.5"/>
+                            </AdvancedMappingType>
+                            <AdvancedMappingType value="Text">
+                                <Text>&#xD;&#xA;cpqHoTrapFlags:</Text>
+                            </AdvancedMappingType>
+                            <AdvancedMappingType value="Varbind-OID">
+                                <varBind OID="1.3.6.1.4.1.232.11.2.11.1"/>
+                            </AdvancedMappingType>
+                            <AdvancedMappingType value="Text">
+                                <Text>&#xD;&#xA;cpqSm2CntlrSysAutoShutdownCause:</Text>
+                            </AdvancedMappingType>
+                            <AdvancedMappingType value="Varbind-OID">
+                                <varBind OID="1.3.6.1.4.1.232.9.2.2.33"/>
+                            </AdvancedMappingType>
+                        </AdvancedMapping>
+                    </AdditionalText5>
+                    <EventType>
+                        <DefaultMapping>
+                            <Text>processingError</Text>
+                        </DefaultMapping>
+                    </EventType>
+                    <AlarmId>
+                        <AdvancedMapping>
+                            <AdvancedMappingType value="Text">
+                                <Text>0</Text>
+                            </AdvancedMappingType>
+                        </AdvancedMapping>
+                    </AlarmId>
+                </MappingConfig>
+                <Criteria>
+                    <AlarmNewCriteria>
+                        <TrapOIDCriteria>
+                            <OID>1.3.6.1.4.1.232.0.9024</OID>
+                        </TrapOIDCriteria>
+                    </AlarmNewCriteria>
+                </Criteria>
+            </Alarm>
