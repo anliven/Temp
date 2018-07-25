@@ -1,0 +1,228 @@
+# -*- coding: utf-8 -*-
+__author__ = 'guowli'
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+# Python 测试框架：nose
+# unittest---(Python自带的单元测试框架，可用于解决较复杂的单元测试)
+# Nose继承自unittest，而且更易用。
+
+# Download --- https://pypi.python.org/pypi/nose
+# Installation and quick start --- http://nose.readthedocs.org/en/latest/
+# documentation » Testing with nose --- http://nose.readthedocs.org/en/latest/testing.html
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+### nose常用参数
+
+# -h： 显示帮助信息
+# -s： 关闭捕获标准输出，让例如print等命令的输出内容显示出来。默认nose会捕获标准输出，但调试的print代码不会打印。
+# -v ： 查看nose的运行信息和调试信息。
+# --collect-only -v : 不运行程序，只是搜集并输出各个case的名称。
+# -x  : 一旦case失败立即停止，不执行后续case。
+# --tests= ： 跟要测试的文件名，可以单独执行一个测试文件，或者nosetests后面直接跟该测试文件名，也可以。
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+### 简单的测试
+
+def Testfunc():
+    a = 1
+    b = 2
+    assert a != b
+# 把上面的内容保存到test_UsingNose.py中，然后在命令行里进入相应目录，执行“nosetests test_UsingNose.py” 就可以运行测试了。
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+### 测试的执行
+
+# nose会自动识别源文件，目录或包中的测试用例。
+# 任何符合正则表达式 (?.^|[b_.-])[Tt]est开头的类、函数、文件或目录，以及TestCase的子类都会被识别并执行。
+# 可以指定测试文件的路径、类或函数。
+# 可以在 nosetests 的参数中直接指定多个目录，以空格分隔。
+# 如果一个对象包含了test属性，如果值不是True，该对象（以及它包含的所有对象）不会被nose识别。
+# 默认nosetests会自动搜索当前目录所有的符合正则表达式的测试文件和子目录并执行。
+
+# 对Nose而言，测试的最小单位是单个的函数，也就是说每个函数就是一个测试。
+# Nose不关注函数内部的测试内容，也就是说当函数出错，python就会立即停止执行出错的函数，nose将无法得到剩下测试的任何信息。
+
+def Testfunc1():
+    a = 1
+    b = 2
+    print a,b
+    assert a == b
+def Testfunc2():
+    print "testfunc2"
+    assert True
+
+# 当前目录命令行下运行test_UsingNose.py中的所有用例
+nosetests test_UsingNose.py
+# 当前目录命令行下运行test_UsingNose.py中的testfunc1用例
+nosetests test_UsingNose.py:Testfunc1
+# 从相对路径命令行下运行test_UsingNose.py中的testfunc2用例
+D:\NSN-WorkFiles\NSN-Logging>nosetests PycharmProjects\Nose\test_UsingNose.py:Testfunc2
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+### 当前目录执行所有测试用例
+
+# 利用nostetests的自动识别功能
+# 在当前目录命令行下执行 nosetests ，所有符合测试名称要求的文件或目录都会被识别并执行。
+
+# python编码实现测试用例的执行
+# 当前目录下创建一个python文件，例如 Run_all_current_testcases.py 并添加如下内容：
+import nose
+nose.main()
+# 或者
+import nose
+result = nose.run()
+print result  # True if the test run succeeded, or false if any test failed or raised an uncaught exception.
+# 在此目录下，命令行执行python Run_all_current_testcases.py。
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+### 测试的结果
+执行之后，每个测试都会得出以下三种结果之一：
+  通过（pass）。实际值跟期望值相符。
+  失败（fail）。实际值跟期望值不相符。
+  出错（error）。测试本身出了问题（测试代码中含有bug），python会给出相应报错信息，但nose将无法显示出任何有关被测用例的信息。
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+### setUp和tearDown
+
+# nose支持setup和teardown函数，在测试用例的前后执行。
+# setup：在测试用例将要开始前被执行
+# teardown：在测试用例结束后被执行
+# 四种作用域：function、class、module、package
+
+# 单独指定函数的setUp和tearDown
+def setUp():
+    print "function setup"
+def tearDown():
+    print "function teardown"
+def func3Start():
+    print "func3 start"
+def func3End():
+    print "func3 end"
+def Testfunc3():
+    print "Testfunc3"
+    assert True
+Testfunc3.setup = func3Start
+Testfunc3.tearDown = func3End
+# 对于上面的代码，指定了Testfunc3的setup和teardown函数
+# 可以利用 -s 参数来停止捕获标准输出，让print的输出内容显示出来，从而确定测试的顺序。
+# 那么,nose实际的执行过程是这样的：setUp()->func3Start()->Testfunc3()->func3End()->tearDown()
+# 也可以换一种写法如下，注意记得 import with_setup
+from nose.tools import with_setup
+def setUp():
+    print "function setup"
+def tearDown():
+    print "function teardown"
+def func1Start():
+    print "func1 start"
+def func1End():
+    print "func1 end"
+def func2Start():
+    print "func2 start"
+def func2End():
+    print "func2 end"
+@with_setup(func1Start, func1End)
+def Testfunc1():
+    print "Testfunc1"
+    assert True
+@with_setup(func2Start, func2End)
+def Testfunc2():
+    print "Testfunc2"
+    assert True
+# 可以利用 -s 参数来停止捕获标准输出，让print的输出内容显示出来，从而确定测试的顺序。
+
+# 类的的setUp和tearDown
+class TestClass():
+    arr1 = 2
+    arr2 = 2
+    def setUp(self):
+        self.arr1 = 1
+        self.arr2 = 3
+        print "MyTestClass setup"
+    def tearDown(self):
+        print "MyTestClass teardown"
+    def Testfunc1(self):
+        assert self.arr1 != self.arr2
+    def Testfunc2(self):
+        assert self.arr1 != 2
+# 这里nose会对每个类的测试方法单独创建类的实例，并且有单独的setUp和tearDown。
+# nose对上面测试的顺序如下：setUp()->Testfunc1()->TearDown()->setUp()->Testfunc2()->TearDown()
+
+# 模块的setUp和tearDown
+def setUp():
+    print "function setup"
+def tearDown():
+    print "function teardown"
+def Testfunc1():
+    print "Testfunc1"
+    assert True
+def Testfunc2():
+    print "Testfunc2"
+    assert True
+# 对于上面的代码，nose实际的执行过程是这样的：　setUp()->Testfunc1()->Testfunc2()->tearDown()
+# nose在文件中如果找到函数setup, setup_module, setUp 或者setUpModule等，那么会在该模块的所有测试执行之前执行该函数。
+# 如果找到函数 teardown,tearDown, teardown_module或者 tearDownModule 等，那么会在该模块所有的测试执行完之后执行该函数。
+
+# package的setUp和tearDown
+# package的setUp和tearDown方法需要放在__init__.py这个文件中，整个package只执行一次setUp和一次tearDown。
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+### 例子：测试实现摄氏温度和华氏温度的转换功能的模块
+
+# 待测模块temperature.py
+# 代码如下：
+
+def to_celsius (t):
+    return round ( (t-32.0)*5.0/9.0 )
+
+def above_freezing (t):
+    return t>0
+
+# 每个Nose测试模块都应该包含以下内容：
+#    用于引入Nose及待测模块的语句
+#    实际用于测试模块的函数
+#    用于触发那些测试函数的调用
+
+# 测试模块test_temperature.py  # 测试文件的名字以“test”开始，Nose运行时，它会自动寻找以“test”开始的文件。
+# 代码如下：
+
+import nose  # 引入Nose
+from temperature import to_celsius  # 引入待测模块
+from temperature import above_freezing  # 引入待测模块
+
+def test_above_freezing ():  # 测试函数的名称也必须以“test”开头。
+	'''Test above_freezing '''
+	assert above_freezing(89.4), 'A temperature above freezing'
+	assert not above_freezing(-42), 'A temperature below freezing'
+	assert not above_freezing(0), 'A temperature at freezing'
+
+def test_boiling ():  # 测试函数的名称也必须以“test”开头。
+	'''Test boiling point'''
+	assert to_celsius(212) == 100
+
+def test_roundoff ():  # 测试函数的名称也必须以“test”开头。
+	'''Test that roundoff works'''
+	assert to_celsius(100) == 38, 'Returning an unrounded result'   #not 37.77...
+
+if __name__ == "__main__":  # 触发测试函数
+	nose.runmodule()
+
+# 执行测试
+# 当前目录命令行执行 python test_temperature.py
+# 或者 nosetests test_temperature.py （此时，测试模块中可以不用添加“引入nose”的语句）
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+# 更多内容请查看 ： documentation » Testing with nose --- http://nose.readthedocs.org/en/latest/testing.html
+
+# Nose可以将所有的单元测试文件一次全部执行，并且提供了coverage的插件，能够统计整体的覆盖率。
+# Nose的参数里面以"--cover"开头的都是coverage相关的需要手动安装一下nose-cov，然后用“--cov-config”来指定配置文件。
+# 请参看：https://pypi.python.org/pypi/nose-cov
